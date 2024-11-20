@@ -21,13 +21,15 @@ export class LinkProvider implements ILinkProvider {
 
   public provideLinks(y: number, callback: (links: ILink[] | undefined) => void): void {
     const links = computeLink(y, this._regex, this._terminal, this._matchIndex).map(
-      (_link): ILink => ({
+      (_link): ILink => { 
+        console.log("LINK RANGE", _link.range);
+        return ({
         range: _link.range,
         text: _link.text,
         activate: this._handler,
         ...this._options
       })
-    );
+  });
     callback(links);
   }
 }
@@ -103,6 +105,8 @@ export const computeLink = (y: number, regex: RegExp, terminal: Terminal, matchI
         y: endY
       }
     };
+
+    console.log("LINK", range, text);
 
     result.push({range, text});
   }
